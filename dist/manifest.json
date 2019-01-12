@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name":        "Upskip",
-  "version":     "0.1",
+  "version":     "0.2",
   "description": "Hide jobs from specific locations in Upwork feed and search results",
 
   "content_scripts": [

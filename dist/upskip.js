@@ -1,5 +1,6 @@
 const undesiredLocations = ["india", "pakistan", "ghana", "malaysia"];
 let loadMoreButton = null;
+let pagination = null;
 let numberOfJobsLoaded = 0;
 let numberOfjobsSkipped = 0;
 
@@ -10,7 +11,20 @@ const findAndArmLoadMoreButton = function() {
     if (loadMoreButton !== null) {
       loadMoreButton.addEventListener("click", function(){
         runUpskip();
-      })
+      });
+    }
+  }
+}
+
+const findAndArmPagination = function() {
+  if (pagination === null) {
+    pagination = document.body.querySelector(".pagination");
+
+    if (pagination !== null) {
+      pagination.addEventListener("click", function() {
+        const resetNumberOfJobsLoaded = true;
+        runUpskip(resetNumberOfJobsLoaded);
+      });
     }
   }
 }
@@ -32,15 +46,20 @@ const hideJobs = function(jobs) {
   });
 }
 
-const runUpskip = function() {
+const runUpskip = function(resetNumberOfJobsLoaded = false) {
   const scanJobs = setInterval(function() {
-    console.log('scanning jobs')
+    if (resetNumberOfJobsLoaded === true) {
+      numberOfJobsLoaded = 0;
+    }
+
+    console.log('scanning jobs');
     const jobs = document.body.querySelectorAll("section.job-tile");
 
     if (jobs.length > numberOfJobsLoaded) {
       numberOfJobsLoaded = jobs.length;
       hideJobs(jobs);
       findAndArmLoadMoreButton();
+      findAndArmPagination();
       clearInterval(scanJobs);
     }
   }, 100);
