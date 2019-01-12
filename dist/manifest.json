@@ -1,0 +1,24 @@
+{
+  "manifest_version": 2,
+
+  "name":        "Upskip",
+  "version":     "0.1",
+  "description": "Hide jobs from specific locations in Upwork feed and search results",
+
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.upwork.com/ab/find-work/",
+        "https://www.upwork.com/o/jobs/browse*"
+      ],
+      "run_at":  "document_end",
+      "js":      ["upskip.js"],
+      "css":     ["upskip.css"]
+    }
+  ],
+
+  "page_action": {
+    "default_icon":  "icon.png",
+    "default_title": "Upskip"
+  }
+}
