@@ -1,42 +1,16 @@
-const undesiredLocations = ["india", "pakistan", "ghana", "malaysia"];
-let loadMoreButton = null;
-let pagination = null;
-let numberOfJobsLoaded = 0;
+const undesiredLocations = ["india", "pakistan", "ghana", "malaysia", "philippines"];
 let numberOfjobsSkipped = 0;
+let jobList = null;
+let skipInProgress = false;
 
-const findAndArmLoadMoreButton = function() {
-  if (loadMoreButton === null) {
-    loadMoreButton = document.body.querySelector(".load-more-button");
-
-    if (loadMoreButton !== null) {
-      loadMoreButton.addEventListener("click", function(){
-        runUpskip();
-      });
-    }
-  }
-}
-
-const findAndArmPagination = function() {
-  if (pagination === null) {
-    pagination = document.body.querySelector(".pagination");
-
-    if (pagination !== null) {
-      pagination.addEventListener("click", function() {
-        const resetNumberOfJobsLoaded = true;
-        runUpskip(resetNumberOfJobsLoaded);
-      });
-    }
-  }
-}
-
-const hideJobs = function(jobs) {
+const skipJobs = function(jobs) {
   jobs.forEach(function(job) {
     const locationTag = job.querySelector(".client-location")
 
     if (locationTag !== null) {
       const location = locationTag.innerText.toLowerCase();
 
-      if (undesiredLocations.indexOf(location) > -1) {
+      if (undesiredLocations.indexOf(location) > -1 && !job.classList.contains("upskipped")) {
         job.classList.add("upskipped");
         console.log(`Skipped a job from ${location}`);
         numberOfjobsSkipped++;
@@ -46,23 +20,28 @@ const hideJobs = function(jobs) {
   });
 }
 
-const runUpskip = function(resetNumberOfJobsLoaded = false) {
-  const scanJobs = setInterval(function() {
-    if (resetNumberOfJobsLoaded === true) {
-      numberOfJobsLoaded = 0;
-    }
+const findJobList = setInterval(function() {
+  console.log("Looking for job list")
+  jobList = document.body.querySelector('[data-v2-job-list]') || document.body.querySelector('#feed-jobs');
+  if (jobList) {
+    clearInterval(findJobList);
+    jObserver.observe(jobList, jObserverConfig);
+  }
+}, 100);
 
-    console.log('scanning jobs');
-    const jobs = document.body.querySelectorAll("section.job-tile");
+const jObserver = new MutationObserver(function(mutations) {
+  if (skipInProgress === false) {
+    skipInProgress = true;
 
-    if (jobs.length > numberOfJobsLoaded) {
-      numberOfJobsLoaded = jobs.length;
-      hideJobs(jobs);
-      findAndArmLoadMoreButton();
-      findAndArmPagination();
-      clearInterval(scanJobs);
-    }
-  }, 100);
-}
+    setTimeout(function() {
+      const jobs = document.body.querySelectorAll("section.job-tile");
+      skipJobs(jobs);
+      skipInProgress = false;
+    }, 100);
+  }
+});
 
-runUpskip();
+const jObserverConfig = {
+  childList: true,
+  subtree: true
+};
