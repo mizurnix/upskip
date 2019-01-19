@@ -33,21 +33,19 @@ const findJobList = setInterval(function() {
 const jObserver = new MutationObserver(function(mutations) {
   if (skipInProgress === false) {
     skipInProgress = true;
-
     setTimeout(function() {
       const jobs = document.body.querySelectorAll("section.job-tile");
-      let countries = localStorage.getItem("blacklistedCountries")
+      let countries = null;
 
-      if (countries !== null) {
-        countries = countries
-                    .split(",")
-                    .map(country => country.trim().toLowerCase());
+      chrome.storage.sync.get('skiplist', function(result) {
+        countries = result.skiplist;
 
-        if (typeof jobs !== "undefined") {
-          skipJobs(jobs, countries);
+        if (typeof countries !== "undefined" && countries !== null) {
+          if (typeof jobs !== "undefined") {
+            skipJobs(jobs, countries);
+          }
         }
-      }
-
+      });
       skipInProgress = false;
     }, 100);
   }
@@ -55,5 +53,5 @@ const jObserver = new MutationObserver(function(mutations) {
 
 const jObserverConfig = {
   childList: true,
-  subtree: true
+  subtree:   true
 };

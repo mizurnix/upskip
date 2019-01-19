@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
   "name":        "Upskip",
-  "description": "Hide jobs from specific locations in Upwork feed and search results",
-  "version":     "0.3",
+  "description": "Skip jobs from specific countries when browsing Upwork feed and search results",
+  "version":     "0.4",
   "page_action": {
     "default_icon": {
       "16": "images/icon16.png",
