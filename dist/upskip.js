@@ -1,18 +1,19 @@
-const undesiredLocations = ["india", "pakistan", "ghana", "malaysia", "philippines"];
+"use strict";
+
 let numberOfjobsSkipped = 0;
 let jobList = null;
 let skipInProgress = false;
 
-const skipJobs = function(jobs) {
+const skipJobs = function(jobs, countries) {
   jobs.forEach(function(job) {
-    const locationTag = job.querySelector(".client-location")
+    const countryTag = job.querySelector(".client-location");
 
-    if (locationTag !== null) {
-      const location = locationTag.innerText.toLowerCase();
+    if (countryTag !== null) {
+      const country = countryTag.innerText.toLowerCase();
 
-      if (undesiredLocations.indexOf(location) > -1 && !job.classList.contains("upskipped")) {
+      if (countries.indexOf(country) > -1 && !job.classList.contains("upskipped")) {
         job.classList.add("upskipped");
-        console.log(`Skipped a job from ${location}`);
+        console.log(`Skipped a job from ${country}`);
         numberOfjobsSkipped++;
         console.log(`Number of jobs skipped: ${numberOfjobsSkipped}`);
       }
@@ -21,7 +22,7 @@ const skipJobs = function(jobs) {
 }
 
 const findJobList = setInterval(function() {
-  console.log("Looking for job list")
+  console.log("Looking for job list");
   jobList = document.body.querySelector('[data-v2-job-list]') || document.body.querySelector('#feed-jobs');
   if (jobList) {
     clearInterval(findJobList);
@@ -35,7 +36,18 @@ const jObserver = new MutationObserver(function(mutations) {
 
     setTimeout(function() {
       const jobs = document.body.querySelectorAll("section.job-tile");
-      skipJobs(jobs);
+      let countries = localStorage.getItem("blacklistedCountries")
+
+      if (countries !== null) {
+        countries = countries
+                    .split(",")
+                    .map(country => country.trim().toLowerCase());
+
+        if (typeof jobs !== "undefined") {
+          skipJobs(jobs, countries);
+        }
+      }
+
       skipInProgress = false;
     }, 100);
   }

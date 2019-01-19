@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+  <title>Test</title>
+  <style>
+    html {
+      box-sizing: border-box;
+    }
+
+    *,
+    *::after,
+    *::before {
+      box-sizing: inherit;
+    }
+
+    body {
+      width: 240px;
+      padding: 5px;
+      line-height: 1.5;
+    }
+
+    textarea {
+      font-size: inherit;
+      font-family: inherit;
+      resize: none;
+      display: block;
+      width: 100%;
+    }
+
+    small {
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    button {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <form name="locations">
+    <label>
+      Skip jobs from these countries:
+      <textarea name="undesired-locations" style="display: block;"></textarea>
+      <small>Separate entries with commas</small>
+    </label>
+
+    <button type="submit">Update</button>
+  </form>
+
+  <script src="popup.js"></script>
+</body>
+</html>
