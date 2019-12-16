@@ -27,9 +27,36 @@
       width: 100%;
     }
 
+    label {
+      display: block;
+    }
+
     small {
       margin-bottom: 1rem;
       display: block;
+    }
+
+    fieldset {
+      border: 0;
+      padding: 0;
+      margin: 0 0 1rem;
+      min-width: 0;
+    }
+
+    legend {
+      display: table;
+      float: left;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+
+    legend + * {
+      clear: both;
+    }
+
+    body:not(:-moz-handler-blocked) fieldset {
+      display: table-cell;
     }
 
     button {
@@ -41,9 +68,33 @@
   <form name="skiplist">
     <label>
       Skip jobs from these countries:
-      <textarea name="countries"></textarea>
+      <textarea
+        name="countries"
+        rows="6"
+        cols="100"
+      ></textarea>
       <small>Separate countries with commas</small>
     </label>
+
+    <fieldset>
+      <legend>Skip job tiers:</legend>
+
+      <label for="entry-level">
+        <input type="checkbox" id="entry-level" name="job-tier" value="entry-level">
+        Entry level
+      </label>
+
+      <label for="intermediate">
+        <input type="checkbox" id="intermediate" name="job-tier" value="intermediate">
+        Intermediate
+      </label>
+
+
+      <label for="expert">
+        <input type="checkbox" id="expert" name="job-tier" value="expert">
+        Expert
+      </label>
+    </fieldset>
 
     <button type="submit">Update</button>
   </form>

@@ -2,14 +2,7 @@
 
 const form = document.forms["skiplist"];
 const countriesInput = form.elements["countries"];
-
-chrome.storage.sync.get("skiplist", function(result) {
-  if (typeof result !== "undefined") {
-    countriesInput.value = result.skiplist.join(", ");
-    console.log("Retrieved skiplist");
-    console.log(result.skiplist);
-  }
-});
+const jobTierCheckboxes = form.elements["job-tier"];
 
 form.addEventListener("submit", e => {
   e.preventDefault();
@@ -18,8 +11,22 @@ form.addEventListener("submit", e => {
                     .split(",")
                     .map(country => country.trim().toLowerCase());
 
+  const jobTiers = [];
+
+  jobTierCheckboxes.forEach(function(jobTierCheckbox) {
+    if (jobTierCheckbox.checked) {
+      jobTiers.push(jobTierCheckbox.value);
+    }
+  });
+
+  console.log(jobTiers);
+
   chrome.storage.sync.set({ "skiplist": countries }, function () {
     console.log("Updated list of countries to skip");
+  });
+
+  chrome.storage.sync.set({ "tiersToSkip": jobTiers }, function () {
+    console.log("Updated list of job tiers to skip");
   });
 
   window.location.hash = "just-updated";
@@ -41,6 +48,32 @@ const showSuccessMessage = function() {
   }
 }
 
+const populateForm = function() {
+  chrome.storage.sync.get("skiplist", function(result) {
+    if (typeof result !== "undefined") {
+      console.log("Retrieved skiplist");
+      console.log(result.skiplist);
+      countriesInput.value = result.skiplist.join(", ");
+    }
+  });
+
+  chrome.storage.sync.get("tiersToSkip", function(result) {
+    if (typeof result !== "undefined") {
+      console.log("Retrieved tiers to skip");
+      console.log(result.tiersToSkip);
+
+      result.tiersToSkip.forEach(function(tierToSkip) {
+        jobTierCheckboxes.forEach(function(checkbox) {
+          if (checkbox.value === tierToSkip) {
+            checkbox.checked = true;
+          }
+        });
+      });
+    }
+  });
+}
+
 window.onload = function() {
   showSuccessMessage();
+  populateForm();
 };
