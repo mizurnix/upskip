@@ -37,7 +37,8 @@ const showSuccessMessage = function() {
   console.log(window.location.hash)
   if (window.location.hash === "#just-updated") {
     const successMessage = document.createElement('p');
-    successMessage.innerText = "List updated";
+
+    successMessage.innerText     = "List updated";
     successMessage.style.cssText = "background-color: #cdffeb; color: #07456f; padding: 2px 4px;";
 
     form.prepend(successMessage);
