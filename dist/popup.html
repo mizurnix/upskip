@@ -1,104 +1,134 @@
 <!doctype html>
 <html>
-<head>
-  <title>Test</title>
-  <style>
-    html {
-      box-sizing: border-box;
-    }
+  <head>
+    <title>Upskip</title>
+    <style>
+      html {
+        box-sizing: border-box;
+      }
 
-    *,
-    *::after,
-    *::before {
-      box-sizing: inherit;
-    }
+      *,
+      *::after,
+      *::before {
+        box-sizing: inherit;
+      }
 
-    body {
-      width: 240px;
-      padding: 5px;
-      line-height: 1.5;
-    }
+      body {
+        width: 240px;
+        padding: 5px;
+        line-height: 1.5;
+      }
 
-    textarea {
-      font-size: inherit;
-      font-family: inherit;
-      resize: none;
-      display: block;
-      width: 100%;
-    }
+      textarea {
+        font-size: inherit;
+        font-family: inherit;
+        resize: none;
+        display: block;
+        width: 100%;
+      }
 
-    label {
-      display: block;
-    }
+      label {
+        display: block;
+      }
 
-    small {
-      margin-bottom: 1rem;
-      display: block;
-    }
+      small {
+        margin-bottom: 1rem;
+        display: block;
+      }
 
-    fieldset {
-      border: 0;
-      padding: 0;
-      margin: 0 0 1rem;
-      min-width: 0;
-    }
+      fieldset {
+        border: 0;
+        padding: 0;
+        margin: 0 0 1rem;
+        min-width: 0;
+      }
 
-    legend {
-      display: table;
-      float: left;
-      margin: 0;
-      padding: 0;
-      width: 100%;
-    }
+      legend {
+        display: table;
+        float: left;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+      }
 
-    legend + * {
-      clear: both;
-    }
+      legend + * {
+        clear: both;
+      }
 
-    body:not(:-moz-handler-blocked) fieldset {
-      display: table-cell;
-    }
+      body:not(:-moz-handler-blocked) fieldset {
+        display: table-cell;
+      }
 
-    button {
-      display: block;
-    }
-  </style>
-</head>
-<body>
-  <form name="skiplist">
-    <label>
-      Skip jobs from these countries:
-      <textarea
-        name="countries"
-        rows="6"
-        cols="100"
-      ></textarea>
-      <small>Separate countries with commas</small>
-    </label>
+      button {
+        display: block;
+      }
+    </style>
+  </head>
 
-    <fieldset>
-      <legend>Skip job tiers:</legend>
+  <body>
+    <form name="skiplist">
+      <label>
+        Skip jobs from these countries:
 
-      <label for="entry-level">
-        <input type="checkbox" id="entry-level" name="job-tier" value="entry level">
-        Entry level
+        <textarea
+          name="countries"
+          rows="6"
+          cols="100"
+        ></textarea>
+
+        <small>
+          Separate countries with commas
+        </small>
       </label>
 
-      <label for="intermediate">
-        <input type="checkbox" id="intermediate" name="job-tier" value="intermediate">
-        Intermediate
+      <fieldset>
+        <legend>Skip job tiers:</legend>
+
+        <label for="entry-level">
+          <input
+            type="checkbox"
+            id="entry-level"
+            name="job-tier"
+            value="entry level"
+          />
+
+          Entry level
+        </label>
+
+        <label for="intermediate">
+          <input
+            type="checkbox"
+            id="intermediate"
+            name="job-tier"
+            value="intermediate"
+          />
+
+          Intermediate
+        </label>
+
+        <label for="expert">
+          <input
+            type="checkbox"
+            id="expert"
+            name="job-tier"
+            value="expert"
+          />
+
+          Expert
+        </label>
+      </fieldset>
+
+      <label>
+        Skip jobs with max rate ($/h) below:
+
+        <input type="number" name="rate" />
       </label>
 
+      <button type="submit">
+        Update
+      </button>
+    </form>
 
-      <label for="expert">
-        <input type="checkbox" id="expert" name="job-tier" value="expert">
-        Expert
-      </label>
-    </fieldset>
-
-    <button type="submit">Update</button>
-  </form>
-
-  <script src="popup.js"></script>
-</body>
+    <script src="popup.js"></script>
+  </body>
 </html>
