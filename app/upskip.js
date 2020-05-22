@@ -42,7 +42,8 @@ const skipJobs = function (jobs, countries, tiers, rate) {
     }
 
     if (typeTag !== null && typeTag.innerText.includes('Hourly:')) {
-      const maxRate = parseInt(typeTag.innerText.split('-$')[1])
+      const rateInfo = typeTag.innerText
+      const maxRate = parseInt(rateInfo.slice(rateInfo.lastIndexOf('$') + 1))
 
       if (rate > maxRate && !job.classList.contains('upskipped')) {
         job.classList.add('upskipped')

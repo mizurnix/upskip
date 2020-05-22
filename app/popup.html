@@ -27,7 +27,13 @@
         width: 100%;
       }
 
+      input[type='number'] {
+        max-width: 4rem;
+        display: block;
+      }
+
       label {
+        width: 100%;
         display: block;
       }
 
@@ -119,9 +125,13 @@
       </fieldset>
 
       <label>
-        Skip jobs with max rate ($/h) below:
+        Skip jobs with max rate below:
 
         <input type="number" name="rate" />
+
+        <small>
+          $ / Hour
+        </small>
       </label>
 
       <button type="submit">

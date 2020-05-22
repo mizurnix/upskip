@@ -44,7 +44,7 @@ const showSuccessMessage = function () {
   if (window.location.hash === '#just-updated') {
     const successMessage = document.createElement('p')
 
-    successMessage.innerText = 'List updated'
+    successMessage.innerText = 'List updated. Refresh page to apply new filters'
     successMessage.style.cssText =
       'background-color: #cdffeb; color: #07456f; padding: 2px 4px;'
 
@@ -52,7 +52,7 @@ const showSuccessMessage = function () {
 
     setTimeout(function () {
       successMessage.remove()
-    }, 2500)
+    }, 5000)
   }
 }
 
